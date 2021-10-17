@@ -39,7 +39,7 @@ $ pip install thorndyke
 $ thorndyke -v username
 ```
 
-# Optional Args
+# Optional Arguments
 | Flag |MetaVar|Usage|
 | ------------- |:----------------------:|:---------:|
 | <code>-o/--output</code>      |   **FILENAME** |  *output filename*  |
