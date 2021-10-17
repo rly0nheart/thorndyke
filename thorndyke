@@ -8,7 +8,8 @@ import requests
 from tqdm import tqdm
 from datetime import datetime
 from lib.disclaimer import message
-from lib.headers import user_agents
+from resources.websites import database
+from resources.headers import user_agents
 from lib.colors import red,white,green,yellow,reset
 
 
