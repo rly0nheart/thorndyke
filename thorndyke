@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import random
+import argparse
+import requests
+from tqdm import tqdm
+from datetime import datetime
+from lib.disclaimer import message
+from lib.headers import user_agents
+from lib.colors import red,white,green,yellow,reset
+
+
+def thorndyke():
+    parser = argparse.ArgumentParser(description=f"""{white}Thorndyke is a username reconnaisance tool that searches a specified username on over 200 websites. | {green}https://github.com/{white}rlyonheart{reset}""")
+    parser.add_argument("username", help=f"{white}target username{reset}")
+    parser.add_argument("-f", "--found", dest="found", help=f"{white}return only {green}found{white} results{reset}", action="store_true")
+    parser.add_argument("-n", "--not-found", dest="notfound", help=f"{white}return only {red}not found{white} results{reset}", action="store_true")
+    parser.add_argument("-o","--output", dest="output", metavar=f"{white}FILENAME{reset}", help=f"{white}write results to a {green}file{reset}")
+    parser.add_argument("-v", "--verbose", dest="verbose", help=f"{white}run thorndyke in {green}verbose{white} mode (recommended).{reset}", action="store_true")
+    args = parser.parse_args()
+    start = datetime.now()
+    
+    if args.verbose:
+        print(message)
+        print(f"{white}* Initialized at {red}{start}{reset}")
+        print(f"{white}* Searching (@{green}{args.username}{white})...{reset}\n")
+    
+    while True:
+        try:
+        	for site in tqdm(database.items()):
+        		headers = {"User-Agent": f"{random.choice(user_agents)}"}
+        		site_name = site[0]
+        		site_url = site[1]
+        		
+        		response = requests.get(site_url.format(args.username), headers=headers, timeout=5)
+        		if args.found:
+        			found(args,response,site_name,site_url)
+        		elif args.notfound:
+        			notfound(args,response,site_name,site_url)
+        		else:
+        		    normal(args,response,site_url,site_name)
+        		    
+        	if args.verbose:
+        		print(f"{white}└─╼ Completed in {red}{datetime.now()-start}{white} seconds.{reset}")
+        		break
+        		
+        except KeyboardInterrupt:
+            if args.verbose:
+            	print(f"{white}\n* Process interrupted {red}Ctrl{white}+{red}C{reset}")
+            	print(f"{white}* Terminated in {red}{datetime.now()-start}{white} seconds.{reset}\n")
+            	break
+            	
+        except requests.exceptions.ReadTimeout:
+        	if args.verbose:
+        		print(f"""{yellow}├ {white}{site_name}{yellow}
+├── {white}status::: {yellow}request timed out{reset}""")
+            	
+        except Exception as e:
+        	if args.verbose:
+        		print(f"""{red}├ {white}{site_name}::: {red}{e}
+├─ {white}status::: reconnecting...{reset}""")            
+ 
+                               
+    # Writing results to a file
+    # If the -n flag is specified, only not found results will be written
+    # Else, all found results will be written        
+def output(args,response,site_name,site_url):
+    if args.notfound:
+        with open(args.output, "a") as file:
+            file.write(f"{site_name} | {args.username} | {response.status_code}\n")
+            file.close()
+    else:
+        with open(args.output,"a") as file:
+            file.write(f"{site_url.format(args.username)}\n")
+            file.close()
+            
+    # The found function returns found results only
+    # And it can be called by specifying the -f/--found flags        
+def found(args,response,site_name,site_url):
+    if response.status_code == 200:
+    	if args.verbose:
+    		print(f"""{green}├ {white}{site_name}{green}
+├─ {white}status::: {green}found
+├── {white}url::: {green}{site_url.format(args.username)}{reset}""")
+    	if args.output:
+    		output(args,response,site_name,site_url)
+    			
+   # The notfound function returns not found results only
+   # And it can be called by specifying the -n/--not-found flags 			
+def notfound(args,response,site_name,site_url):
+    if response.status_code != 200:
+    	if args.verbose:
+    		print(f"""{red}├ {white}{site_name}{red}
+├─ {white}status::: {red}not found{red}
+├── {white}code::: {red}{response.status_code}{reset}""")
+    	if args.output:
+    		output(args,response,site_name,site_url)    			
+    
+    # The normal function will return both found and not found results
+    # This is called by default if    -f/--found & -n/--not-found     flags are not specified
+def normal(args,response,site_url,site_name):
+    if response.status_code == 200:
+    	if args.verbose:
+    	    print(f"""{green}├ {white}{site_name}{green}
+├─ {white}status::: {green}found
+├── {white}url::: {green}{site_url.format(args.username)}{reset}""")
+    	if args.output:
+    	    output(args,response,site_name,site_url)
+    	           
+    else:
+        if args.verbose:
+        	print(f"""{red}├ {white}{site_name}{red}
+├─ {white}status::: {red}not found{red}
+├── {white}code::: {red}{response.status_code}{reset}""") 
+        	if args.output:
+        		output(args,response,site_name,site_url)
+
+
+if __name__ == "__main__":
+    thorndyke()
