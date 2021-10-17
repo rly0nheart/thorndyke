@@ -1,10 +1,11 @@
 ![Python Version](https://img.shields.io/badge/python-3.x-blue?style=flat&logo=python)
 ![OS](https://img.shields.io/badge/OS-GNU%2FLinux-red?style=flat&logo=linux)
 ![GitHub](https://img.shields.io/github/license/rlyonheart/thorndyke?style=flat&logo=github)
-![Lines of code](https://img.shields.io/tokei/lines/github/rlyonheart/thorndyke&logo=github)
-![GitHub repo size](https://img.shields.io/github/repo-size/rlyonheart/thorndyke&logo=github)
+![Lines of code](https://img.shields.io/tokei/lines/github/rlyonheart/thorndyke?style=flat&logo=github)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/rlyonheart/thorndyke?style=flat&logo=github)
 [![CodeFactor](https://www.codefactor.io/repository/github/rlyonheart/thorndyke/badge)](https://www.codefactor.io/repository/github/rlyonheart/thorndyke)
-[![PyPI Download](https://pepy.tech/badge/thorndyke)](https://pepy.tech/project/thorndyke)
+![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/rlyonheart/thorndyke?style=flat&logo=github)
+[![PyPI Downloads](https://pepy.tech/badge/thorndyke)](https://pepy.tech/project/thorndyke)
 ![PyPI](https://img.shields.io/pypi/v/thorndyke?style=flat&logo=pypi)
 
 Username reconnaisance tool that searches a specified username on over 200 websites.
