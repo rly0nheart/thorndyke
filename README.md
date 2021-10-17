@@ -8,7 +8,7 @@
 [![PyPI Downloads](https://pepy.tech/badge/thorndyke)](https://pepy.tech/project/thorndyke)
 ![PyPI](https://img.shields.io/pypi/v/thorndyke?style=flat&logo=pypi)
 
-Username reconnaisance tool that searches a specified username on over 200 websites.
+Username reconnaisance tool that checks the availability of a specified username on over 200 websites.
 
 # Installation & Usage
 **Clone from Github**:
