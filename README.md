@@ -49,8 +49,9 @@ $ thorndyke -v username
 
 
 # CHANGELOG
-* Test Pypi
-* Snapchat
+**Improvements**:
+* added Test Pypi
+* added Snapchat
 * added 30 more user agents
 
 
