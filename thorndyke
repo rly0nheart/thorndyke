@@ -60,7 +60,7 @@ def thorndyke():
         	if args.verbose:
         		print(f"""{white}{site_name}
 ├ {white}error: {yellow}request timed out{white}
-├─ {white}status: {red}retrying:attempt({yellow}{retry}{white})...{reset}""")
+├─ {white}status: retrying:attempt({yellow}{retry}{white})...{reset}""")
             	
         except Exception as e:
         	if args.verbose:
@@ -101,7 +101,7 @@ def notfound(args,response,site_name,site_url):
     if response.status_code != 200:
     	if args.verbose:
     		print(f"""{white}{site_name}
-├─ username: @ {red}{args.username}{white}
+├─ username: @{red}{args.username}{white}
 ├ status: {red}Not Found{white}
 ├─ code: {red}{response.status_code}{white}
 ├ url: {red}{site_url.format(args.username)}{reset}""")
@@ -124,7 +124,7 @@ def normal(args,response,site_url,site_name):
     else:
         if args.verbose:
         	print(f"""{white}{site_name}
-├─ username: @ {red}{args.username}{white}
+├─ username: @{red}{args.username}{white}
 ├ status: {red}Not Found{white}
 ├─ code: {red}{response.status_code}{white}{white}
 ├ url: {red}{site_url.format(args.username)}{reset}""") 
