@@ -14,7 +14,7 @@ from lib.colors import red,white,green,yellow,reset
 
 
 def thorndyke():
-    parser = argparse.ArgumentParser(description=f"""{white}Thorndyke is a username reconnaisance tool that searches a specified username on over 200 websites. | {green}https://github.com/{white}rlyonheart{reset}""")
+    parser = argparse.ArgumentParser(description=f"""{white}Thorndyke: {green}username reconnaisance{white} tool that checks the availability of a specified username on over {green}200 websites{white}. | {green}https://github.com/{white}rlyonheart{reset}""")
     parser.add_argument("username", help=f"{white}target username{reset}")
     parser.add_argument("-f", "--found", dest="found", help=f"{white}return only {green}found{white} results{reset}", action="store_true")
     parser.add_argument("-n", "--not-found", dest="notfound", help=f"{white}return only {red}not found{white} results{reset}", action="store_true")
@@ -25,11 +25,12 @@ def thorndyke():
     
     if args.verbose:
         print(message)
-        print(f"{white}* Initialized at {red}{start}{reset}")
-        print(f"{white}* Searching (@{green}{args.username}{white})...{reset}\n")
-    
+        print(f"{white}[{green}+{white}] {len(database)} sites loaded {red}{start}{reset}")
+        print(f"{white}[{green}*{white}] Checking @{green}{args.username}{white} on:{reset}")
+    retry=0
     while True:
         try:
+        	retry+=1
         	for site in tqdm(database.items()):
         		headers = {"User-Agent": f"{random.choice(user_agents)}"}
         		site_name = site[0]
@@ -49,19 +50,22 @@ def thorndyke():
         		
         except KeyboardInterrupt:
             if args.verbose:
-            	print(f"{white}\n* Process interrupted {red}Ctrl{white}+{red}C{reset}")
-            	print(f"{white}* Terminated in {red}{datetime.now()-start}{white} seconds.{reset}\n")
+            	print(f"\n{white}[{red}.{white}] {red}Ctrl{white}+{red}C {white}Detected..{reset}")
+            	time.sleep(3)
+            	print(f"{white}[{red}!{white}] Thorndyke terminated in {red}{datetime.now()-start}{white} seconds.{reset}\n")
             	break
             	
         except requests.exceptions.ReadTimeout:
         	if args.verbose:
-        		print(f"""{yellow}├ {white}{site_name}{yellow}
-├── {white}status::: {yellow}request timed out{reset}""")
+        		print(f"""{white}{site_name}
+├ {white}error: {yellow}request timed out{white}
+├─ {white}status: {red}retrying:attempt({yellow}{retry}{white})...{reset}""")
             	
         except Exception as e:
         	if args.verbose:
-        		print(f"""{red}├ {white}{site_name}::: {red}{e}
-├─ {white}status::: reconnecting...{reset}""")            
+        		print(f"""{white}{site_name}
+├ error: {red}{e}{white}
+├─ status: retrying:attempt({red}{retry}{white})...{reset}""")            
  
                                
     # Writing results to a file
@@ -70,7 +74,7 @@ def thorndyke():
 def output(args,response,site_name,site_url):
     if args.notfound:
         with open(args.output, "a") as file:
-            file.write(f"{site_name} | {args.username} | {response.status_code}\n")
+            file.write(f"Not Found: {site_url.format(args.username)}\n")
             file.close()
     else:
         with open(args.output,"a") as file:
@@ -82,42 +86,49 @@ def output(args,response,site_name,site_url):
 def found(args,response,site_name,site_url):
     if response.status_code == 200:
     	if args.verbose:
-    		print(f"""{green}├ {white}{site_name}{green}
-├─ {white}status::: {green}found
-├── {white}url::: {green}{site_url.format(args.username)}{reset}""")
-    	if args.output:
-    		output(args,response,site_name,site_url)
+    		print(f"""{white}{site_name}
+├ username: @{green}{args.username}{white}
+├─ status: {green}Found{white}
+├ code: {green}{response.status_code}{white}
+├─ url: {green}{site_url.format(args.username)}{reset}""")
+    		if args.output:
+    			output(args,response,site_name,site_url)
     			
    # The notfound function returns not found results only
    # And it can be called by specifying the -n/--not-found flags 			
 def notfound(args,response,site_name,site_url):
     if response.status_code != 200:
     	if args.verbose:
-    		print(f"""{red}├ {white}{site_name}{red}
-├─ {white}status::: {red}not found{red}
-├── {white}code::: {red}{response.status_code}{reset}""")
-    	if args.output:
-    		output(args,response,site_name,site_url)    			
+    		print(f"""{white}{site_name}
+├─ username: @ {red}{args.username}{white}
+├ status: {red}Not Found{white}
+├─ code: {red}{response.status_code}{white}
+├ url: {red}{site_url.format(args.username)}{reset}""")
+    		if args.output:
+    			output(args,response,site_name,site_url)    			
     
     # The normal function will return both found and not found results
     # This is called by default if    -f/--found & -n/--not-found     flags are not specified
 def normal(args,response,site_url,site_name):
     if response.status_code == 200:
     	if args.verbose:
-    	    print(f"""{green}├ {white}{site_name}{green}
-├─ {white}status::: {green}found
-├── {white}url::: {green}{site_url.format(args.username)}{reset}""")
-    	if args.output:
-    	    output(args,response,site_name,site_url)
+    	    print(f"""{white}{site_name}
+├ username: @{green}{args.username}{white}
+├─ status: {green}Found{white}
+├ code: {green}{response.status_code}{white}
+├─ url: {green}{site_url.format(args.username)}{reset}""")
+    	    if args.output:
+    	    	output(args,response,site_name,site_url)
     	           
     else:
         if args.verbose:
-        	print(f"""{red}├ {white}{site_name}{red}
-├─ {white}status::: {red}not found{red}
-├── {white}code::: {red}{response.status_code}{reset}""") 
+        	print(f"""{white}{site_name}
+├─ username: @ {red}{args.username}{white}
+├ status: {red}Not Found{white}
+├─ code: {red}{response.status_code}{white}{white}
+├ url: {red}{site_url.format(args.username)}{reset}""") 
         	if args.output:
         		output(args,response,site_name,site_url)
-
 
 if __name__ == "__main__":
     thorndyke()
