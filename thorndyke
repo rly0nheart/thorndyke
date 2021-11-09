@@ -32,7 +32,7 @@ def thorndyke():
         try:
             if args.shell:
             	print(f"{white}[{green}*{white}] [thorndyke.{green}sh{white}] Checking @{green}{args.username}{white} on:{reset}")
-            	subprocess.run([f"{os.gercwd()}/thorndyke.sh", f"{args.username}"],text=True)
+            	subprocess.run([f"{os.getcwd()}/thorndyke.sh", f"{args.username}"],text=True)
             else:
             	retry+=1
             	for site in tqdm(database.items()):
