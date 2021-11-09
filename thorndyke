@@ -6,6 +6,7 @@ import time
 import random
 import argparse
 import requests
+import subprocess
 from tqdm import tqdm
 from datetime import datetime
 from lib.disclaimer import message
@@ -17,54 +18,55 @@ from lib.colors import red,white,green,yellow,reset
 def thorndyke():
     parser = argparse.ArgumentParser(description=f"""{white}Thorndyke: {green}username reconnaisance{white} tool that checks the availability of a specified username on over {green}200 websites{white}. | {green}https://github.com/{white}rlyonheart{reset}""")
     parser.add_argument("username", help=f"{white}target username{reset}")
+    parser.add_argument("--shell", dest="shell", help=f"{white}run the {green}BASH{white} alternative of Thorndyke{reset}", action="store_true")
     parser.add_argument("-f", "--found", dest="found", help=f"{white}return only {green}found{white} results{reset}", action="store_true")
     parser.add_argument("-n", "--not-found", dest="notfound", help=f"{white}return only {red}not found{white} results{reset}", action="store_true")
     parser.add_argument("-o","--output", dest="output", metavar=f"{white}FILENAME{reset}", help=f"{white}write results to a {green}file{reset}")
-    parser.add_argument("-v", "--verbose", dest="verbose", help=f"{white}run thorndyke in {green}verbose{white} mode (recommended).{reset}", action="store_true")
+    parser.add_argument("-v", "--verbose", dest="verbose", help=f"{white}run Thorndyke in {green}verbose{white} mode (recommended).{reset}", action="store_true")
     args = parser.parse_args()
     start = datetime.now()
-    
     if args.verbose:
-        print(message)
-        print(f"{white}[{green}+{white}] {len(database)} sites loaded {red}{start}{reset}")
-        print(f"{white}[{green}*{white}] Checking @{green}{args.username}{white} on:{reset}")
+        print(f"{white}[{green}*{white}] [thorndyke.{green}py{white}] Checking @{green}{args.username}{white} on:{reset}")
     retry=0
     while True:
         try:
-        	retry+=1
-        	for site in tqdm(database.items()):
-        		headers = {"User-Agent": f"{random.choice(user_agents)}"}
-        		site_name = site[0]
-        		site_url = site[1]
-        		
-        		response = requests.get(site_url.format(args.username), headers=headers, timeout=5)
-        		if args.found:
-        			found(args,response,site_name,site_url)
-        		elif args.notfound:
-        			notfound(args,response,site_name,site_url)
-        		else:
-        		    normal(args,response,site_url,site_name)
-        		    
-        	if args.verbose:
-        		print(f"{white}└─╼ Completed in {red}{datetime.now()-start}{white} seconds.{reset}")
-        		break
-        		
-        except KeyboardInterrupt:
-            if args.verbose:
-            	print(f"\n{white}[{red}.{white}] {red}Ctrl{white}+{red}C {white}Detected..{reset}")
-            	time.sleep(3)
-            	print(f"{white}[{red}!{white}] Thorndyke terminated in {red}{datetime.now()-start}{white} seconds.{reset}\n")
+            if args.shell:
+            	print(f"{white}[{green}*{white}] [thorndyke.{green}sh{white}] Checking @{green}{args.username}{white} on:{reset}")
+            	subprocess.run(["./thorndyke.sh", f"{args.username}"],text=True)
+            else:
+            	retry+=1
+            	for site in tqdm(database.items()):
+            		headers = {"User-Agent": f"{random.choice(user_agents)}"}
+            		site_name = site[0]
+            		site_url = site[1]
+            		
+            		response = requests.get(site_url.format(args.username), headers=headers, timeout=5)
+            		if args.found:
+            			found(args,response,site_name,site_url)
+            		elif args.notfound:
+            			notfound(args,response,site_name,site_url)
+            		else:
+            			normal(args,response,site_url,site_name)
+            			
+            	if args.verbose:
+            		print(f"{white}└╼ Completed in {red}{datetime.now()-start}{white} seconds.{reset}")
+            		break
             	break
             	
+        except KeyboardInterrupt:
+            if args.verbose:
+                exit(f"{white}[{red}!{white}] Thorndyke interrupted with {red}Ctrl{white}+{red}C{reset}\n")
+            break
+            
         except requests.exceptions.ReadTimeout:
-        	if args.verbose:
-        		print(f"""{white}{site_name}
+            if args.verbose:
+            	print(f"""{white}{site_name}
 ├ {white}error: {yellow}request timed out{white}
 ├─ {white}status: retrying:attempt({yellow}{retry}{white})...{reset}""")
             	
         except Exception as e:
-        	if args.verbose:
-        		print(f"""{white}{site_name}
+            	if args.verbose:
+            		print(f"""{white}{site_name}
 ├ error: {red}{e}{white}
 ├─ status: retrying:attempt({red}{retry}{white})...{reset}""")            
  
@@ -130,6 +132,6 @@ def normal(args,response,site_url,site_name):
 ├ url: {red}{site_url.format(args.username)}{reset}""") 
         	if args.output:
         		output(args,response,site_name,site_url)
-
+        		
 if __name__ == "__main__":
     thorndyke()
