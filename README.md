@@ -42,6 +42,7 @@ pip install thorndyke
 ```
 thorndyke -v username
 ```
+[![asciicast](https://asciinema.org/a/XKpZfmKONyXAkuZBIK82qtyvS.svg)](https://asciinema.org/a/XKpZfmKONyXAkuZBIK82qtyvS)
 
 # Initialyzing the Bash alternative
 
