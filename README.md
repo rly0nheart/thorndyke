@@ -50,13 +50,11 @@ thorndyke -v username
 ```
 
 # Initialyzing the Bash alternative
-```
-chmod +x .thorndyke.sh
-```
 
 ```
 python thorndyke --shell username
 ```
+[![asciicast](https://asciinema.org/a/H53w6b1KRE7824xyO6VKUqF6c.svg)](https://asciinema.org/a/H53w6b1KRE7824xyO6VKUqF6c)
 
 # Optional Args
 | Flag |MetaVar|Usage|
