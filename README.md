@@ -51,7 +51,11 @@ thorndyke -v username
 
 # Initialyzing the Bash alternative
 ```
-./thorndyke --shell username
+chmod +x .thorndyke.sh
+```
+
+```
+python thorndyke --shell username
 ```
 
 # Optional Args
