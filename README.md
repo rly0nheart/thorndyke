@@ -8,55 +8,60 @@
 [![PyPI Downloads](https://pepy.tech/badge/thorndyke)](https://pepy.tech/project/thorndyke)
 ![PyPI](https://img.shields.io/pypi/v/thorndyke?style=flat&logo=pypi)
 
-Username reconnaisance tool that check the availability of a specified username on over 200 websites.
+**Thorndyke**: *Username reconnaisance tool that checks the availability of a specified username on over 200 websites.*
 
-# Installation & Usage
-**Clone from Github**:
+# CHANGELOG
+* Now supports BASH
 
-```
-$ git clone https://github.com/rlyonheart/thorndyke.git
-```
+# Clone from Github
 
 ```
-$ cd thorndyke
+git clone https://github.com/rlyonheart/thorndyke.git
 ```
 
 ```
-$ pip install -r requirements.txt
+cd thorndyke
 ```
 
 ```
-$ python thorndyke -v username
-```
-
-**Install from Pypi**:
-
-```
-$ pip install thorndyke
+pip install -r requirements.txt
 ```
 
 ```
-$ thorndyke -v username
+python thorndyke -v username
+```
+
+**Alternatively**:
+```
+chmod +x thorndyke
+```
+```
+./thorndyke -v username
+```
+
+# Install from Pypi
+
+```
+pip install thorndyke
+```
+
+```
+thorndyke -v username
+```
+
+# Initialyzing the Bash alternative
+```
+./thorndyke --shell username
 ```
 
 # Optional Args
 | Flag |MetaVar|Usage|
 | ------------- |:----------------------:|:---------:|
+| <code>--shell</code>      |   |  *run the Bash alternative of Thorndyke*  |
 | <code>-o/--output</code>      |   **FILENAME** |  *output filename*  |
 | <code>-f/--found</code>  |    |  *return found results only*  |
 | <code>-n/--not-found</code>  |    |  *return not found results only*  |
 | <code>-v/--verbosity</code>  |    |  *run thorndyke in verbose mode (recommended)*  |
-
-
-# CHANGELOG
-**Improvements**:
-* added Test Pypi
-* added Snapchat
-* added 30 more user agents
-
-
-# Github
-* Github repository [here](https://github.com/rlyonheart/thorndyke)
 
 
 # LICENSE
