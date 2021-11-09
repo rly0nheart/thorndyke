@@ -30,14 +30,8 @@ pip install -r requirements.txt
 ```
 python thorndyke -v username
 ```
+[![asciicast](https://asciinema.org/a/rW2YwdTX8xMO00dNphttz2C6v.svg)](https://asciinema.org/a/rW2YwdTX8xMO00dNphttz2C6v)
 
-**Alternatively**:
-```
-chmod +x thorndyke
-```
-```
-./thorndyke -v username
-```
 
 # Install from Pypi
 
