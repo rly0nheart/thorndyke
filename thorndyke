@@ -31,7 +31,7 @@ def thorndyke():
         try:
             if args.shell:
             	subprocess.run(["chmod","+x",f"{os.getcwd()}/lib/.thorndyke.sh"],text=True)
-            	print(f"{white}[{green}*{white}] [thorndyke.{green}sh{white}] Checking @{green}{args.username}{white} on:{reset}")
+            	print(f"{white}[{green}*{white}] [thorndyke.{green}sh{white}] Checking @{green}{args.username}{white}:{reset}")
             	subprocess.run([f"{os.getcwd()}/lib/.thorndyke.sh", f"{args.username}"],text=True)
             else:
             	retry+=1
