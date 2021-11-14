@@ -1,137 +1,51 @@
-#!/usr/bin/env python3
-
 import os
 import sys
-import time
-import random
+import json
+import signal
+import logging
 import argparse
-import requests
+import threading
 import subprocess
 from tqdm import tqdm
 from datetime import datetime
-from resources.websites import database
-from resources.headers import user_agents
-from lib.colors import red,white,green,yellow,reset
-
-
-def thorndyke():
-    parser = argparse.ArgumentParser(description=f"""{white}Thorndyke: {green}username reconnaisance{white} tool that checks the availability of a specified username on over {green}200 websites{white}. | {green}https://github.com/{white}rlyonheart{reset}""")
-    parser.add_argument("username", help=f"{white}target username{reset}")
-    parser.add_argument("--shell", dest="shell", help=f"{white}run the {green}BASH{white} alternative of Thorndyke{reset}", action="store_true")
-    parser.add_argument("-f", "--found", dest="found", help=f"{white}return only {green}found{white} results{reset}", action="store_true")
-    parser.add_argument("-n", "--not-found", dest="notfound", help=f"{white}return only {red}not found{white} results{reset}", action="store_true")
-    parser.add_argument("-o","--output", dest="output", metavar=f"{white}FILENAME{reset}", help=f"{white}write results to a {green}file{reset}")
-    parser.add_argument("-v", "--verbose", dest="verbose", help=f"{white}run Thorndyke in {green}verbose{white} mode (recommended).{reset}", action="store_true")
-    args = parser.parse_args()
-    start = datetime.now()
-    if args.verbose:
-        print(f"{white}[{green}*{white}] [thorndyke.{green}py{white}] Checking @{green}{args.username}{white} on:{reset}")
-    retry=0
-    while True:
-        try:
-            if args.shell:
-            	subprocess.run(["chmod","+x",f"{os.getcwd()}/lib/.thorndyke.sh"],text=True)
-            	print(f"{white}[{green}*{white}] [thorndyke.{green}sh{white}] Checking @{green}{args.username}{white}:{reset}")
-            	subprocess.run([f"{os.getcwd()}/lib/.thorndyke.sh", f"{args.username}"],text=True)
-            else:
-            	retry+=1
-            	for site in tqdm(database.items()):
-            		headers = {"User-Agent": f"{random.choice(user_agents)}"}
-            		site_name = site[0]
-            		site_url = site[1]
-            		
-            		response = requests.get(site_url.format(args.username), headers=headers, timeout=5)
-            		if args.found:
-            			found(args,response,site_name,site_url)
-            		elif args.notfound:
-            			notfound(args,response,site_name,site_url)
-            		else:
-            			normal(args,response,site_url,site_name)
-            			
-            	if args.verbose:
-            		print(f"{white}└╼ Completed in {red}{datetime.now()-start}{white} seconds.{reset}")
-            		break
-            	break
-            	
-        except KeyboardInterrupt:
-            if args.verbose:
-                exit(f"{white}[{red}!{white}] Thorndyke interrupted with {red}Ctrl{white}+{red}C{reset}\n")
-            break
-            
-        except requests.exceptions.ReadTimeout:
-            if args.verbose:
-            	print(f"""{white}{site_name}
-├ {white}error: {yellow}request timed out{white}
-├─ {white}status: retrying:attempt({yellow}{retry}{white})...{reset}""")
-            	
-        except Exception as e:
-            	if args.verbose:
-            		print(f"""{white}{site_name}
-├ error: {red}{e}{white}
-├─ status: retrying:attempt({red}{retry}{white})...{reset}""")            
- 
-                               
-    # Writing results to a file
-    # If the -n flag is specified, only not found results will be written
-    # Else, all found results will be written        
-def output(args,response,site_name,site_url):
-    if args.notfound:
-        with open(args.output, "a") as file:
-            file.write(f"Not Found: {site_url.format(args.username)}\n")
-            file.close()
-    else:
-        with open(args.output,"a") as file:
-            file.write(f"{site_url.format(args.username)}\n")
-            file.close()
-            
-    # The found function returns found results only
-    # And it can be called by specifying the -f/--found flags        
-def found(args,response,site_name,site_url):
-    if response.status_code == 200:
-    	if args.verbose:
-    		print(f"""{white}{site_name}
-├ username: @{green}{args.username}{white}
-├─ status: {green}Found{white}
-├ code: {green}{response.status_code}{white}
-├─ url: {green}{site_url.format(args.username)}{reset}""")
-    		if args.output:
-    			output(args,response,site_name,site_url)
-    			
-   # The notfound function returns not found results only
-   # And it can be called by specifying the -n/--not-found flags 			
-def notfound(args,response,site_name,site_url):
-    if response.status_code != 200:
-    	if args.verbose:
-    		print(f"""{white}{site_name}
-├─ username: @{red}{args.username}{white}
-├ status: {red}Not Found{white}
-├─ code: {red}{response.status_code}{white}
-├ url: {red}{site_url.format(args.username)}{reset}""")
-    		if args.output:
-    			output(args,response,site_name,site_url)    			
+sys.path.append(os.getcwd()+"/.lib/")
+sys.path.append(os.getcwd()+"/.src/")
+from _main_ import *
+from colors import red,green,yellow,white,reset
     
-    # The normal function will return both found and not found results
-    # This is called by default if    -f/--found & -n/--not-found     flags are not specified
-def normal(args,response,site_url,site_name):
-    if response.status_code == 200:
-    	if args.verbose:
-    	    print(f"""{white}{site_name}
-├ username: @{green}{args.username}{white}
-├─ status: {green}Found{white}
-├ code: {green}{response.status_code}{white}
-├─ url: {green}{site_url.format(args.username)}{reset}""")
-    	    if args.output:
-    	    	output(args,response,site_name,site_url)
-    	           
-    else:
-        if args.verbose:
-        	print(f"""{white}{site_name}
-├─ username: @{red}{args.username}{white}
-├ status: {red}Not Found{white}
-├─ code: {red}{response.status_code}{white}{white}
-├ url: {red}{site_url.format(args.username)}{reset}""") 
-        	if args.output:
-        		output(args,response,site_name,site_url)
-        		
+if args.verbose:
+	logging.basicConfig(level=logging.DEBUG, format=f"{white}[{green}*{white}] %(message)s{reset}")
 if __name__ == "__main__":
-    thorndyke()
+    threads = []
+    start = datetime.utcnow()
+    if args.verbose:
+    	print(f"{white}[{green}*{white}] Thorndyke started at {green}{start}{reset}")
+    if args.shell:
+    	subprocess.run(["chmod","+x",f"{os.getcwd()}/.src/thorndyke.sh"],text=True)
+    	if args.verbose:
+    		print(f"{white}[{green}*{white}] [thorndyke.{green}sh{white}] Checking @{green}{args.username}{white}:{reset}")
+    	subprocess.run([f"{os.getcwd()}/.src/thorndyke.sh", f"{args.username}"],text=True)
+    else:
+    	if args.dictionary:
+    		site_list = args.dictionary
+    	else:
+    		site_list = ".rsc/sites.json"
+    		with open(site_list) as data_file:
+    		    data = json.load(data_file)
+    		    
+    		for site in data['sites']:
+    		    x = threading.Thread(target=thorndyke, args=(site, args.username), daemon=True)
+    		    threads.append(x)
+    		    
+    		for thread in threads:
+    		    thread.start()
+    		    
+    		for thread in threads:
+    			thread.join()
+    			
+    		if args.username:
+    			print(f"{white}[{green}+{white}] Found @{green}{args.username}{white} on {green}{len(username_results)}{white} site(s):\n")
+    			for result in tqdm(username_results):
+    			    print(result)
+    			if args.verbose:
+    				print(f"{white}[{green}.{white}] Stopped in {green}{datetime.utcnow()-start}{white} seconds.{reset}")
