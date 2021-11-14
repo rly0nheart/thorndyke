@@ -8,7 +8,7 @@
 [![PyPI Downloads](https://pepy.tech/badge/thorndyke)](https://pepy.tech/project/thorndyke)
 ![PyPI](https://img.shields.io/pypi/v/thorndyke?style=flat&logo=pypi)
 
-**Thorndyke**: *Username reconnaisance tool that checks the availability of a specified username on over 200 websites.*
+**Thorndyke**: *Username enumeration tool that checks the availability of a specified username on over 300 websites.*
 
 # CHANGELOG
 * Now supports BASH
@@ -28,7 +28,7 @@ pip install -r requirements.txt
 ```
 
 ```
-python thorndyke -v username
+python thorndyke -u [USERNAME]
 ```
 [![asciicast](https://asciinema.org/a/rW2YwdTX8xMO00dNphttz2C6v.svg)](https://asciinema.org/a/rW2YwdTX8xMO00dNphttz2C6v)
 
@@ -40,25 +40,24 @@ pip install thorndyke
 ```
 
 ```
-thorndyke -v username
+thorndyke -v [USERNAME]
 ```
 [![asciicast](https://asciinema.org/a/XKpZfmKONyXAkuZBIK82qtyvS.svg)](https://asciinema.org/a/XKpZfmKONyXAkuZBIK82qtyvS)
 
 # Initialyzing the Bash alternative
 
 ```
-python thorndyke --shell username
+python thorndyke --shell -u [USERNAME]
 ```
 [![asciicast](https://asciinema.org/a/H53w6b1KRE7824xyO6VKUqF6c.svg)](https://asciinema.org/a/H53w6b1KRE7824xyO6VKUqF6c)
 
 # Optional Args
 | Flag |MetaVar|Usage|
 | ------------- |:----------------------:|:---------:|
-| <code>--shell</code>      |   |  *run the Bash alternative of Thorndyke*  |
-| <code>-o/--output</code>      |   **FILENAME** |  *output filename*  |
-| <code>-f/--found</code>  |    |  *return found results only*  |
-| <code>-n/--not-found</code>  |    |  *return not found results only*  |
-| <code>-v/--verbosity</code>  |    |  *run thorndyke in verbose mode (recommended)*  |
+| <code>-u/--username</code>      |   **USERNAME** |  *target username (if username is not specified,Thorndyke will instead run tests on the site.json file*  |
+| <code>-sh/--shell</code>      |   |  *run the Bash alternative of Thorndyke*  |
+| <code>-d/--dictionary</code>  | **FILENAME**   |  *specify a custom file containing a list of websites to user for searching a username*  |
+| <code>-v/--verbose</code>  |    |  *run thorndyke in verbose mode (show network logs and errors)*  |
 
 
 # LICENSE
