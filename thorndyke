@@ -4,8 +4,6 @@ import os
 import sys
 import json
 import signal
-import logging
-import argparse
 import threading
 import subprocess
 from tqdm import tqdm
@@ -15,17 +13,14 @@ sys.path.append(os.getcwd()+"/.src/")
 from _main_ import *
 from colors import red,green,yellow,white,reset
     
-if args.verbose:
-	logging.basicConfig(level=logging.DEBUG, format=f"{white}[{green}*{white}] %(message)s{reset}")
 if __name__ == "__main__":
     threads = []
     start = datetime.utcnow()
-    if args.verbose:
-    	print(f"{white}[{green}*{white}] Thorndyke started at {green}{start}{reset}")
+    print(f"{white}Starting Thorndyke 2021.1.0.0-beta - (https://git.io/JKPxl) at {green}{start}{reset}")
+    print(f"{white}={reset}"*100)
     if args.shell:
     	subprocess.run(["chmod","+x",f"{os.getcwd()}/.src/thorndyke.sh"],text=True)
-    	if args.verbose:
-    		print(f"{white}[{green}*{white}] [thorndyke.{green}sh{white}] Checking @{green}{args.username}{white}:{reset}")
+    	print(f"{white}[{green}*{white}] [thorndyke.{green}sh{white}] Enumerating @{green}{args.username}{white}:{reset}")
     	subprocess.run([f"{os.getcwd()}/.src/thorndyke.sh", f"{args.username}"],text=True)
     else:
     	if args.dictionary:
@@ -44,10 +39,16 @@ if __name__ == "__main__":
     		    
     		for thread in threads:
     			thread.join()
-    			
+    		print(f"{white}={reset}"*100)
     		if args.username:
-    			print(f"{white}[{green}+{white}] Found @{green}{args.username}{white} on {green}{len(username_results)}{white} site(s):\n")
+    			print(f"{white}[{green}+{white}] @{green}{args.username}{white} Found on {green}{len(username_results)}{white} site(s):\n")
     			for result in tqdm(username_results):
     			    print(result)
-    			if args.verbose:
-    				print(f"{white}[{green}.{white}] Stopped in {green}{datetime.utcnow()-start}{white} seconds.{reset}")
+    			    
+    		if args.output:
+    			with open(f"{time.time()}." + args.output, "a") as file:
+    				for item in found_sites:
+    					file.write(item + "\n")
+    				file.close()
+    			
+    		print(f"{white}[{green}.{white}] Stopped in {green}{datetime.utcnow()-start}{white} seconds.{reset}")
