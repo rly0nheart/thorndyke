@@ -9,9 +9,7 @@
 ![PyPI](https://img.shields.io/pypi/v/thorndyke?style=flat&logo=pypi)
 
 **Thorndyke**: *Username enumeration tool that checks the availability of a specified username on over 300 websites.*
-
-# CHANGELOG
-* Now supports BASH
+[![asciicast](https://asciinema.org/a/449177.svg)](https://asciinema.org/a/449177)
 
 # Clone from Github
 
@@ -40,9 +38,8 @@ pip install thorndyke
 ```
 
 ```
-thorndyke -v [USERNAME]
+thorndyke [USERNAME]
 ```
-[![asciicast](https://asciinema.org/a/XKpZfmKONyXAkuZBIK82qtyvS.svg)](https://asciinema.org/a/XKpZfmKONyXAkuZBIK82qtyvS)
 
 # Initialyzing the Bash alternative
 
