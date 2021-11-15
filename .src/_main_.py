@@ -3,6 +3,7 @@ import sys
 import json
 import signal
 import urllib3
+import logging
 import argparse
 import requests
 import threading
@@ -15,16 +16,14 @@ from colors import red,green,yellow,white,reset
 def thorndyke(site,username=None):
    global found_sites
    global username_results
-   # Examine the current validity of the entry
+   
    if not site['valid']:
-       if args.verbose:
-           return print(f"{white}[{yellow}-{white}] {site['name']} Skipped - {yellow}Marked as invalid{reset}")
-       return
+       if args.debug:
+           return print(f"{white}[{yellow}-{white}] {site['name']}: {yellow}Skipped - Marked as invalid{reset}")
    	    
    if not site['known_accounts'][0]:
-   	if args.verbose:
-   		return print(f"{white}[{yellow}-{white}] {site['name']} Skipped - {yellow}No valid user names to test{reset}")
-   	return
+   	if args.debug:
+   		return print(f"{white}[{yellow}-{white}] {site['name']}: {yellow}Skipped - No valid user names to test{reset}")
    		
    if username:
    	username = username
@@ -46,37 +45,36 @@ def thorndyke(site,username=None):
            	pass
    	        	
    except requests.exceptions.ReadTimeout:
-       if args.verbose:
-       	print(f"{white}[{yellow}!{white}] {site['name']}: {yellow}Read Timeout{reset}")
+       if args.debug:
+       	print(f"{white}[{yellow}!{white}] {site['name']}: {yellow}Request Timed Out{reset}")
        
    #except requests.exceptions.HTTPError as err:
    #	print(f"{white}[{red}!{white}] {err}Connection Reset By Peer{reset}")    
    	    
    except Exception as e:
-   	if args.verbose:
+   	if args.debug:
    		print(f"{white}[{red}!{white}] {site['name']}: {red}{e}{reset}")
    	
    	
    	
 def signal_handler(*_):
-    """
-    If user pressed Ctrl+C close all connections and exit
-    """
-    if args.verbose:
-    	exit(f"\n{white}[{red}x{white}] Process interrupted with {red}Ctrl{white}+{red}C{reset}")
-    	sys.exit(130)
+    exit(f"\n{white}[{red}x{white}] Thorndyke interrupted with {red}Ctrl{white}+{red}C{reset}")
     sys.exit(130)
 
 signal.signal(signal.SIGINT, signal_handler)
-# Suppress HTTPS warnings
+# Suppressing HTTPS warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 username_results = []
 found_sites = []
 parser = argparse.ArgumentParser(description=f"{white}Thorndyke: {green}username enumeration{white} tool that checks the availability of a specified username on over {green}300{white} websites. | {green}https://github.com/{white}rlyonheart{reset}")
-parser.add_argument("-v", "--verbose", help=f"{white}run Thorndyke in {green}verbose{white} mode ({green}show all network logs and errors{white}){reset}", action="store_true")
-parser.add_argument("-sh","--shell", help=f"{white}run the {green}BASH{white} alternative of Thorndyke{reset}", action="store_true")
-parser.add_argument("-d", "--dictionary", dest="dictionary", metavar=f"{white}[FILENAME]{reset}", help=f"{white}perform lookup from a specified site list{reset}")
 parser.add_argument("-u", "--username", dest="username", metavar=f"{white}[USERNAME]{reset}", help=f"{white}If username is specified, Thorndyke will perform the lookups against the given username instead of running checks against the {green}JSON{white} file{reset}")
+parser.add_argument("-d", "--dictionary", dest="dictionary", metavar=f"{white}[FILENAME]{reset}", help=f"{white}perform lookup from a specified site list{reset}")
+parser.add_argument("-o", "--output", dest="output", metavar=f"{white}[FILENAME]{reset}", help=f"{white}write output to a specified {green}file{reset}")
+parser.add_argument("--shell", dest="shell", help=f"{white}initiate the {green}BASH{white} alternative of thorndyke{reset}", action="store_true")
+parser.add_argument("--debug", dest="debug", help=f"{white}run thorndyke in {green}debug{white} mode ({green}shows all network logs and errors{white}){reset}", action="store_true")
 args = parser.parse_args()
+
+if args.debug:
+	logging.basicConfig(level=logging.DEBUG, format=f"{white}[{green}*{white}] %(message)s{reset}")
