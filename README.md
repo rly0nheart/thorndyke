@@ -28,8 +28,6 @@ pip install -r requirements.txt
 ```
 python thorndyke -u [USERNAME]
 ```
-[![asciicast](https://asciinema.org/a/rW2YwdTX8xMO00dNphttz2C6v.svg)](https://asciinema.org/a/rW2YwdTX8xMO00dNphttz2C6v)
-
 
 # Install from Pypi
 
