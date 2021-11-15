@@ -49,10 +49,11 @@ python thorndyke --shell -u [USERNAME]
 # Optional Args
 | Flag |MetaVar|Usage|
 | ------------- |:----------------------:|:---------:|
-| <code>-u/--username</code>      |   **USERNAME** |  *target username (if username is not specified,Thorndyke will instead run tests on the site.json file*  |
-| <code>-sh/--shell</code>      |   |  *run the Bash alternative of Thorndyke*  |
-| <code>-d/--dictionary</code>  | **FILENAME**   |  *specify a custom file containing a list of websites to user for searching a username*  |
-| <code>-v/--verbose</code>  |    |  *run thorndyke in verbose mode (show network logs and errors)*  |
+| <code>-u/--username</code>      |   **[USERNAME]** |  *target username (if username is not specified,Thorndyke will instead run tests on the site.json file*  |
+| <code>--shell</code>      |   |  *run the Bash alternative of Thorndyke*  |
+| <code>-d/--dictionary</code>  | **[FILENAME]**   |  *specify a custom file containing a list of websites to user for searching a username*  |
+| <code>--debug</code>  |    |  *run thorndyke in debug mode (shows all network logs and errors)*  |
+| <code>-o/--output</code>  | **[FILENAME]**   |  *write output to a specified file*  |
 
 
 # LICENSE
