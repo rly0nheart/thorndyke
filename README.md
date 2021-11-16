@@ -8,10 +8,10 @@
 [![PyPI Downloads](https://pepy.tech/badge/thorndyke)](https://pepy.tech/project/thorndyke)
 ![PyPI](https://img.shields.io/pypi/v/thorndyke?style=flat&logo=pypi)
 
-**Thorndyke**: *Username enumeration tool that checks the availability of a specified username on over 300 websites.*
+**Thorndyke**: *👥Username enumeration tool that 🔎checks the availability of a specified username on over 300 🌐websites.*
 [![asciicast](https://asciinema.org/a/449177.svg)](https://asciinema.org/a/449177)
 
-# Clone from Github
+# ✔️ Clone from Github
 
 ```
 git clone https://github.com/rlyonheart/thorndyke.git
@@ -29,7 +29,7 @@ pip install -r requirements.txt
 python thorndyke -u [USERNAME]
 ```
 
-# Install from Pypi
+# ✔️ Install from Pypi
 
 ```
 pip install thorndyke
@@ -39,14 +39,14 @@ pip install thorndyke
 thorndyke [USERNAME]
 ```
 
-# Initialyzing the Bash alternative
+# ✅ Initialyzing the Bash alternative
 
 ```
 python thorndyke --shell -u [USERNAME]
 ```
 [![asciicast](https://asciinema.org/a/H53w6b1KRE7824xyO6VKUqF6c.svg)](https://asciinema.org/a/H53w6b1KRE7824xyO6VKUqF6c)
 
-# Optional Args
+# 🔶 Optional Arguments
 | Flag |MetaVar|Usage|
 | ------------- |:----------------------:|:---------:|
 | <code>-u/--username</code>      |   **[USERNAME]** |  *target username (if username is not specified,Thorndyke will instead run tests on the site.json file*  |
@@ -56,13 +56,13 @@ python thorndyke --shell -u [USERNAME]
 | <code>-o/--output</code>  | **[FILENAME]**   |  *write output to a specified file*  |
 
 
-# LICENSE
+# 📃 LICENSE
 ![license](https://user-images.githubusercontent.com/74001397/137917929-2f2cdb0c-4d1d-4e4b-9f0d-e01589e027b5.png)
 
-# About author
+# 👤 About author
 * [About.me](https://about.me/rlyonheart)
 
-# Contact author
+# ☎️ Contact author
 * [Github](https://github.com/rlyonheart)
 
 * [Twitter](https://twitter.com/rly0nheart)
