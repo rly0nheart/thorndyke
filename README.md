@@ -8,6 +8,8 @@
 [![PyPI Downloads](https://pepy.tech/badge/thorndyke)](https://pepy.tech/project/thorndyke)
 ![PyPI](https://img.shields.io/pypi/v/thorndyke?style=flat&logo=pypi)
 
+> *This is a beta[2021.1.0.0] version of thorndyke, and is still being tested for bugs*
+
 **Thorndyke**: *👥Username enumeration tool that 🔎checks the availability of a specified username on over 300 🌐websites.*
 [![asciicast](https://asciinema.org/a/449177.svg)](https://asciinema.org/a/449177)
 
