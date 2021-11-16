@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import signal
+import random
 import urllib3
 import logging
 import argparse
@@ -9,6 +10,7 @@ import requests
 import threading
 from datetime import datetime
 sys.path.append(os.getcwd()+"/.lib/")
+from headers import user_agents
 from colors import red,green,yellow,white,reset
 
 
@@ -32,7 +34,8 @@ def thorndyke(site,username=None):
    url =  site['check_uri'].format(username)
    print(f"🔎 {white}{site['name']}: {green}{url}{reset}")
    try:
-      response = requests.get(url, timeout=60, verify=False, allow_redirects=False)
+      header = {"User-Agent": random.choice(user_agents)}
+      response = requests.get(url, headers=header, timeout=60, verify=False, allow_redirects=False)
       code_match = response.status_code == int(site['account_existence_code'])
       string_match = response.text.find(site['account_existence_string']) >= 0
       if username:
