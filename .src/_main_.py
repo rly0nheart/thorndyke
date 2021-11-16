@@ -7,7 +7,6 @@ import logging
 import argparse
 import requests
 import threading
-from tqdm import tqdm
 from datetime import datetime
 sys.path.append(os.getcwd()+"/.lib/")
 from colors import red,green,yellow,white,reset
@@ -16,14 +15,14 @@ from colors import red,green,yellow,white,reset
 def thorndyke(site,username=None):
    global found_sites
    global username_results
-   
+   # Examine the current validity of the entry
    if not site['valid']:
        if args.debug:
-           return print(f"{white}[{yellow}-{white}] {site['name']}: {yellow}Skipped - Marked as invalid{reset}")
+           return print(f"🚫 {white}{site['name']}: {yellow}Skipped - Marked as invalid{reset}")
    	    
    if not site['known_accounts'][0]:
    	if args.debug:
-   		return print(f"{white}[{yellow}-{white}] {site['name']}: {yellow}Skipped - No valid user names to test{reset}")
+   		return print(f"🚫 {white}{site['name']}: {yellow}Skipped - No valid user names to test{reset}")
    		
    if username:
    	username = username
@@ -31,7 +30,7 @@ def thorndyke(site,username=None):
        username = site['known_accounts'][0]
    	    
    url =  site['check_uri'].format(username)
-   print(f"{white}[{green}-{white}] {site['name']}: {green}{url}{reset}")
+   print(f"🔎 {white}{site['name']}: {green}{url}{reset}")
    try:
       response = requests.get(url, timeout=60, verify=False, allow_redirects=False)
       code_match = response.status_code == int(site['account_existence_code'])
@@ -46,23 +45,26 @@ def thorndyke(site,username=None):
    	        	
    except requests.exceptions.ReadTimeout:
        if args.debug:
-       	print(f"{white}[{yellow}!{white}] {site['name']}: {yellow}Request Timed Out{reset}")
+       	print(f"〽️ {white}{site['name']}: {yellow}Request Timed Out{reset}")
        
    #except requests.exceptions.HTTPError as err:
    #	print(f"{white}[{red}!{white}] {err}Connection Reset By Peer{reset}")    
    	    
    except Exception as e:
    	if args.debug:
-   		print(f"{white}[{red}!{white}] {site['name']}: {red}{e}{reset}")
+   		print(f"‼️  {white}{site['name']}: {red}{e}{reset}")
    	
    	
    	
 def signal_handler(*_):
-    exit(f"\n{white}[{red}x{white}] Thorndyke interrupted with {red}Ctrl{white}+{red}C{reset}")
+    """
+    If user pressed Ctrl+C close all connections and exit
+    """
+    exit(f"\n⭕ {white}Thorndyke interrupted with {red}Ctrl{white}+{red}C{reset}")
     sys.exit(130)
 
 signal.signal(signal.SIGINT, signal_handler)
-# Suppressing HTTPS warnings
+# Suppress HTTPS warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
@@ -77,4 +79,4 @@ parser.add_argument("--debug", dest="debug", help=f"{white}run thorndyke in {gre
 args = parser.parse_args()
 
 if args.debug:
-	logging.basicConfig(level=logging.DEBUG, format=f"{white}[{green}*{white}] %(message)s{reset}")
+	logging.basicConfig(level=logging.DEBUG, format=f"🌐 {white}%(message)s{reset}")
