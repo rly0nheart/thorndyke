@@ -44,7 +44,7 @@ thorndyke [USERNAME]
 # ✅ Initialyzing the Bash alternative
 
 ```
-python thorndyke --shell -u [USERNAME]
+python thorndyke -S -u [USERNAME]
 ```
 [![asciicast](https://asciinema.org/a/H53w6b1KRE7824xyO6VKUqF6c.svg)](https://asciinema.org/a/H53w6b1KRE7824xyO6VKUqF6c)
 
@@ -52,9 +52,9 @@ python thorndyke --shell -u [USERNAME]
 | Flag |MetaVar|Usage|
 | ------------- |:----------------------:|:---------:|
 | <code>-u/--username</code>      |   **[USERNAME]** |  *target username (if username is not specified,Thorndyke will instead run tests on the site.json file*  |
-| <code>--shell</code>      |   |  *run the Bash alternative of Thorndyke*  |
-| <code>-d/--dictionary</code>  | **[FILENAME]**   |  *specify a custom file containing a list of websites to user for searching a username*  |
-| <code>--debug</code>  |    |  *run thorndyke in debug mode (shows all network logs and errors)*  |
+| <code>-S/--shell</code>      |   |  *run the Bash alternative of Thorndyke*  |
+| <code>-f/--file</code>  | **[FILENAME]**   |  *specify a custom file containing a list of websites to user for searching a username*  |
+| <code>-d/--debug</code>  |    |  *run thorndyke in debug mode (shows all network logs and errors)*  |
 | <code>-o/--output</code>  | **[FILENAME]**   |  *write output to a specified file*  |
 
 
