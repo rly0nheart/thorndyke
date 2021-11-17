@@ -20,11 +20,11 @@ def thorndyke(site,username=None):
 
    if not site['valid']:
        if args.debug:
-           return print(f"🚫 {white}{site['name']}: {yellow}Skipped - Marked as invalid{reset}")
+           print(f"🚫 {white}{site['name']}: {yellow}Skipped - Marked as invalid{reset}")
    	    
    if not site['known_accounts'][0]:
    	if args.debug:
-   		return print(f"🚫 {white}{site['name']}: {yellow}Skipped - No valid user names to test{reset}")
+   		print(f"🚫 {white}{site['name']}: {yellow}Skipped - No valid user names to test{reset}")
    		
    if username:
    	username = username
