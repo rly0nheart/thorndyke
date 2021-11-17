@@ -17,7 +17,8 @@ from colors import red,green,yellow,white,reset
 if __name__ == "__main__":
     threads = []
     start = datetime.now()
-    print(f"{white}Starting Thorndyke 2021.1.0.0-beta - (https://git.io/JKPxl) at {green}{start.strftime('%a %b %y, %H:%M:%S%p')}{reset}\n",end=f"{white}={reset}"*100)
+    print(f"{white}Starting Thorndyke 2021.1.0.0-beta - (https://git.io/JKPxl) at {green}{start.strftime('%a %b %y, %H:%M:%S%p')}{reset}")
+    print(f"{white}={reset}"*100)
     if args.shell:
     	subprocess.run(["chmod","+x",f"{os.getcwd()}/.src/thorndyke.sh"],text=True)
     	print(f"🔎 {white}[thorndyke.{green}sh{white}] Enumerating @{green}{args.username}{white}:{reset}")
@@ -52,4 +53,4 @@ if __name__ == "__main__":
     				file.close()
     				print(f"\n✍️  {white}Output written to ./{green}{args.output}{reset}")
     			
-    		print(f"⛔ {white}Stopped in {green}{datetime.now()-start}{white} seconds.{reset}")
+    		print(f"⛔ {white}[{red}Thorndyke{white}] Stopped in {green}{datetime.now()-start}{white} seconds.{reset}")
