@@ -2,9 +2,9 @@ import os
 import sys
 import json
 import signal
-import random
 import urllib3
 import logging
+import random
 import argparse
 import requests
 import threading
@@ -75,7 +75,7 @@ username_results = []
 found_sites = []
 parser = argparse.ArgumentParser(description=f"{white}Thorndyke: {green}username enumeration{white} tool that checks the availability of a specified username on over {green}300{white} websites. | {green}https://github.com/{white}rlyonheart{reset}")
 parser.add_argument("-u", "--username", dest="username", metavar=f"{white}[USERNAME]{reset}", help=f"{white}If username is specified, Thorndyke will perform the lookups against the given username instead of running checks against the {green}JSON{white} file{reset}")
-parser.add_argument("-d", "--dictionary", dest="dictionary", metavar=f"{white}[FILENAME]{reset}", help=f"{white}perform lookup from a specified site list{reset}")
+parser.add_argument("-f", "--file", dest="file", metavar=f"{white}[FILENAME]{reset}", help=f"{white}perform lookup from a specified site list{reset}")
 parser.add_argument("-o", "--output", dest="output", metavar=f"{white}[FILENAME]{reset}", help=f"{white}write output to a specified {green}file{reset}")
 parser.add_argument("--shell", dest="shell", help=f"{white}initiate the {green}BASH{white} alternative of thorndyke{reset}", action="store_true")
 parser.add_argument("--debug", dest="debug", help=f"{white}run thorndyke in {green}debug{white} mode ({green}shows all network logs and errors{white}){reset}", action="store_true")
