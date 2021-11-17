@@ -12,23 +12,23 @@ sys.path.append(os.getcwd()+"/.lib/")
 sys.path.append(os.getcwd()+"/.src/")
 from _main_ import *
 from colors import red,green,yellow,white,reset
+
     
 if __name__ == "__main__":
     threads = []
     start = datetime.now()
-    print(f"{white}Starting Thorndyke 2021.1.0.0-beta - (https://git.io/JKPxl) at {green}{start.strftime('%a %b %y, %H:%M:%S%p')}{reset}")
-    print(f"{white}={reset}"*100)
+    print(f"{white}Starting Thorndyke 2021.1.0.0-beta - (https://git.io/JKPxl) at {green}{start.strftime('%a %b %y, %H:%M:%S%p')}{reset}\n",end=f"{white}={reset}"*100)
     if args.shell:
     	subprocess.run(["chmod","+x",f"{os.getcwd()}/.src/thorndyke.sh"],text=True)
     	print(f"🔎 {white}[thorndyke.{green}sh{white}] Enumerating @{green}{args.username}{white}:{reset}")
     	subprocess.run([f"{os.getcwd()}/.src/thorndyke.sh", f"{args.username}"],text=True)
     else:
-    	if args.dictionary:
-    		site_list = args.dictionary
+    	if args.file:
+    		site_list = args.file
     	else:
     		site_list = ".rsc/sites.json"
-    		with open(site_list) as data_file:
-    		    data = json.load(data_file)
+    		with open(site_list) as data:
+    		    data = json.load(data)
     		    
     		for site in tqdm(data['sites']):
     		    x = threading.Thread(target=thorndyke, args=(site, args.username), daemon=True)
