@@ -73,7 +73,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 username_results = []
 found_sites = []
-parser = argparse.ArgumentParser(description=f"{white}Thorndyke: {green}username enumeration{white} tool that checks the availability of a specified username on over {green}300{white} websites. | {green}https://github.com/{white}rlyonheart{reset}")
+parser = argparse.ArgumentParser(description=f"{white}Thorndyke: {green}👥username enumeration{white} tool that 🔎checks the availability of a specified username on over {green}300{white} 🌐websites. | {green}https://github.com/{white}rlyonheart{reset}")
 parser.add_argument("-u", "--username", dest="username", metavar=f"{white}[USERNAME]{reset}", help=f"{white}If username is specified, Thorndyke will perform the lookups against the given username instead of running checks against the {green}JSON{white} file{reset}")
 parser.add_argument("-f", "--file", dest="file", metavar=f"{white}[FILENAME]{reset}", help=f"{white}perform lookup from a specified site list{reset}")
 parser.add_argument("-o", "--output", dest="output", metavar=f"{white}[FILENAME]{reset}", help=f"{white}write output to a specified {green}file{reset}")
