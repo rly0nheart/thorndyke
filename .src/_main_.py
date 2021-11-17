@@ -17,7 +17,7 @@ from colors import red,green,yellow,white,reset
 def thorndyke(site,username=None):
    global found_sites
    global username_results
-   # Examine the current validity of the entry
+
    if not site['valid']:
        if args.debug:
            return print(f"🚫 {white}{site['name']}: {yellow}Skipped - Marked as invalid{reset}")
@@ -60,14 +60,11 @@ def thorndyke(site,username=None):
    	
    	
 def signal_handler(*_):
-    """
-    If user pressed Ctrl+C close all connections and exit
-    """
     exit(f"\n⭕ {white}[{red}Thorndyke{white}] interrupted with {red}Ctrl{white}+{red}C{reset}")
     sys.exit(130)
 
 signal.signal(signal.SIGINT, signal_handler)
-# Suppress HTTPS warnings
+# Disabling HTTPS warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
