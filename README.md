@@ -41,7 +41,6 @@ $ thorndyke username
 # Optional Args
 | Flag |MetaVar|Usage|
 | ------------- |:----------------------:|:---------:|
-| <code>--output</code>      |   path/to/file |  *write output to a specified file*  |
 | <code>--found</code>  |    |  *return found results only*  |
 | <code>--not-found</code>  |    |  *return not found results only*  |
 | <code>--version</code>  |    |  *view programams's version number and exit*  |
