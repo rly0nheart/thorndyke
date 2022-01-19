@@ -14,7 +14,7 @@
 *Username enumeration tool that checks the availability of a specified username on over 200 websites.*
 
 # Installation & Usage
-*Clone from Github*:
+**Clone from Github**:
 ```
 $ git clone https://github.com/rly0nheart/thorndyke.git
 ```
@@ -27,7 +27,7 @@ $ cd thorndyke
 $ pip install -r requirements.txt
 ```
 
-*Install from PyPi*:
+**Install from PyPi**:
 
 
 ```
