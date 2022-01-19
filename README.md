@@ -8,7 +8,8 @@
 [![PyPI Downloads](https://pepy.tech/badge/thorndyke)](https://pepy.tech/project/thorndyke)
 ![PyPI](https://img.shields.io/pypi/v/thorndyke?style=flat&logo=pypi)
 
-![thorndyke](https://user-images.githubusercontent.com/74001397/150099726-cd58d0af-6385-4633-a550-405f3318f8a3.gif)
+![PNOOes88489+zzz0AHLfTQRBdt9NFIJ6300kw37fTTUEct9dRUV2311VhnrfXWXHft9ddghy322GSXbfbZaKet9tpst+3223DHLffcdNdt991456333nz37fffgAcu+OCEF2744YgnrvjijDfu+OOQRy755JRXbvnlmGeu+eacd+7556CHLvpmAQEA](https://user-images.githubusercontent.com/74001397/150145851-e178fd7a-d7f1-4a9d-920a-f63846808410.gif)
+
 
 
 *Lightweight username enumeration tool that checks the availability of a specified username on over 200 websites.*
