@@ -2,59 +2,50 @@
 
 import os
 import sys
+import time
 import urllib3
 import random
 import argparse
 import requests
 from tqdm import tqdm
 from datetime import datetime
-sys.path.append(os.getcwd()+"/.lib/")
-from colors import red,white,green,yellow,reset
-import sites, banner, headers, found, not_found, default_lookup
+sys.path.append(f'{os.getcwd()}/.lib')
+import banner,colors, headers, sites, found, not_found, default_lookup
 
 
 def Thorndyke():
     start_time = datetime.now()
-    parser = argparse.ArgumentParser(description=f'{white}Lightweight username enumeration tool',epilog=f'{white}Thorndyke checks the availability of a specified username on over 200 popular websites{white}. Developed by Richard Mwewa | https://github.com/{green}rly0nheart{reset}')
-    parser.add_argument('username', help=f'{green}target username{reset}')
-    parser.add_argument('--file', help=argparse.SUPPRESS)
-    parser.add_argument('--found', dest='found', help=f'{white}return found results only{reset}', action='store_true')
-    parser.add_argument('--not-found', dest='notfound', help=f'{white}return not found results only{reset}', action='store_true')
-    parser.add_argument('--output', dest='output', metavar=f'{white}path/to/file{reset}', help=argparse.SUPPRESS)
-    parser.add_argument('--version',version=f'{white}2022.0.6.0 Released on 20nd January 2022{reset}',action='version')
+    parser = argparse.ArgumentParser(description=f'{colors.white}Lightweight username enumeration tool',epilog=f'{colors.white}Thorndyke checks the availability of a specified username on over 200 popular websites{colors.white}. Developed by Richard Mwewa | https://github.com/{colors.green}rly0nheart{colors.reset}')
+    parser.add_argument('username', help=f'{colors.green}target username{colors.reset}')
+    parser.add_argument('--found', dest='found', help=f'{colors.green}return found results only{colors.reset}', action='store_true')
+    parser.add_argument('--not-found', dest='notfound', help=f'{colors.green}return not found results only{colors.reset}', action='store_true')
+    parser.add_argument('--output', dest='output', metavar=f'{colors.green}FILENAME{colors.reset}', help=argparse.SUPPRESS)
+    parser.add_argument('--version',version=f'{colors.white}2022.1.0.0 Released on 20th January 2022{colors.reset}',action='version')
     args = parser.parse_args()
     print(banner.banner)
     
-    	
-    print(f'{white}[{green}~{white}] Enumerating @{green}{args.username}{white} on:{reset}')
+    
+    print(f'{colors.white}[{colors.green}~{colors.white}] Enumerating @{colors.green}{args.username}{colors.white} on:{colors.reset}')
     for site_name, site_url in tqdm(sites.database.items()):
         try:
             # Suppressing HTTPS warnings
             urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
             user_agent = {'User-Agent': f'{random.choice(headers.user_agents)}'}
             response = requests.get(site_url.format(args.username), headers=user_agent, verify=False, allow_redirects=False)
-            if response.status_code == 200:
-            	status = 'Found'
-            else:
-            	status = 'Not Found'
-            data = {'Status': status,
-                         'Username': args.username,
-                         'URL': f"{site_url.format(args.username)}",
-            }
             if args.found:
-            	found.found(args,response,site_name,site_url,data)
+            	found.found(args,response,site_name,site_url)
             elif args.notfound:
-            	not_found.not_found(args,response,site_name,site_url,data)
+            	not_found.not_found(args,response,site_name,site_url)
             else:
-            	default_lookup.default(args,response,site_url,site_name,data)
-           	
+            	default_lookup.default(args,response,site_url,site_name)
+            	
         except KeyboardInterrupt:
-            exit(f'\n{white}[{red}!{white}] Process interrupted with {red}Ctrl{white}+{red}C{reset}')
+            exit(f'\n{colors.white}[{colors.red}x{colors.white}] Process interrupted with {colors.red}Ctrl{colors.white}+{colors.red}C{colors.reset}')
             
         except requests.exceptions.ReadTimeout:
-            print(f'{white}{site_name}: {yellow}Request Timed Out{reset}')
+            print(f'{colors.white}[{colors.yellow}!{colors.white}] {site_name}: {colors.yellow}Request Timed Out{colors.reset}')
             
         except Exception as e:
-            print(f'{white}{site_name}: {red}{e}{reset}')
+            print(f'{colors.white}[{colors.red}!{colors.white}] {site_name}: {colors.red}{e}{colors.reset}')
             
-    print(f'{white}[{green}-{white}] Finished in {green}{datetime.now()-start_time}{white} seconds.{reset}')
+    print(f'{colors.white}[{colors.green}-{colors.white}] Finished in {colors.green}{datetime.now()-start_time}{colors.white} seconds.{colors.reset}')
