@@ -11,7 +11,7 @@
 ![thorndyke](https://user-images.githubusercontent.com/74001397/150099726-cd58d0af-6385-4633-a550-405f3318f8a3.gif)
 
 
-*Username enumeration tool that checks the availability of a specified username on over 200 websites.*
+*Lightweight username enumeration tool that checks the availability of a specified username on over 200 websites.*
 
 # Installation & Usage
 **Clone from Github**:
