@@ -20,7 +20,7 @@ def Thorndyke():
     parser.add_argument('--found', dest='found', help=f'{colors.green}return found results only{colors.reset}', action='store_true')
     parser.add_argument('--not-found', dest='notfound', help=f'{colors.green}return not found results only{colors.reset}', action='store_true')
     parser.add_argument('--output', dest='output', metavar=f'{colors.green}FILENAME{colors.reset}', help=argparse.SUPPRESS)
-    parser.add_argument('--version',version=f'{colors.white}2022.1.0.0 Released on 20th January 2022{colors.reset}',action='version')
+    parser.add_argument('--version',version=f'{colors.white}2022.1.2.1 Released on 5th March 2022{colors.reset}',action='version')
     args = parser.parse_args()
     print(banner.banner)
     
